@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 30px;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #123c69;
+            color: white;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #123c69;
+        }
+        .SUCCESS { color: green; font-weight: bold; }
+        .FAILED { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Account Transaction History</h1>
+
+    <h3 th:text="'Customer: ' + ${customer.fullName}"></h3>
+    <p th:text="'Account Number: ' + ${customer.accountNumber}"></p>
+    <p th:text="'Current Balance: LKR ' + ${customer.balance}"></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>From Account</th>
+                <th>To Account</th>
+                <th>Amount (LKR)</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="transaction : ${transactions}">
+                <td th:text="${transaction.id}"></td>
+                <td th:text="${transaction.fromAccount}"></td>
+                <td th:text="${transaction.toAccount}"></td>
+                <td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.status}"
+                    th:class="${transaction.status}"></td>
+                <td th:text="${transaction.description}"></td>
+                <td th:text="${transaction.createdAt}"></td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(transactions)}">
+                <td colspan="7">No transactions found for this account.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/">Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>
